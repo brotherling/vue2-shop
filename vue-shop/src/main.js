@@ -9,6 +9,8 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 // 设置请求根路径
 Vue.http.options.root = 'http://www.lovegf.cn:8899'
+// 设置post请求返回数据格式
+Vue.http.options.emulateJSON = true;
 
 // css reset css初始化
 import './styles/common.css'
@@ -29,6 +31,10 @@ import moment from 'moment'
 Vue.filter('dataFormat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
     return moment(dataStr).format(pattern)
 })
+
+// 全局导入评论组件
+import comment from './components/comment.vue'
+Vue.component('comment-box', comment)
 
 Vue.config.productionTip = false
 

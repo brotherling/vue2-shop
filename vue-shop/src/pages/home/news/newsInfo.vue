@@ -37,14 +37,12 @@ export default {
                 // console.log(result)
                 if(result.body.status === 0){
                     this.info = result.body.message[0]
+                }else{
+                    Toast('获取数据失败')
                 }
             })
         }
     },
-    //定义评论组件
-    components:{
-        'comment-box': comment
-    }
 }
 </script>
 
@@ -62,6 +60,11 @@ export default {
             justify-content: space-between;
             font-size: 13px;
             color: #226aff;
+        }
+        .content{
+            img{
+                width: 100%;
+            }
         }
     }
 </style>
