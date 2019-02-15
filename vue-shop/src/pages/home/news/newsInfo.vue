@@ -20,7 +20,7 @@
 
 <script>
     // 引入评论组件
-    import comment from '@/components/comment.vue'
+    // import comment from '@/components/comment.vue'
 export default {
     data(){
         return {

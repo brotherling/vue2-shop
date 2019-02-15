@@ -17,6 +17,8 @@ import './styles/common.css'
 
 // 引入mui的css文件
 import './libs/mui/css/mui.css'
+// 导入扩展图标样式
+import './libs/mui/css/icons-extra.css'
 
 // 1.导入mint-ui和其样式文件
 import MintUI from 'mint-ui'
@@ -31,6 +33,10 @@ import moment from 'moment'
 Vue.filter('dataFormat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm:ss') {
     return moment(dataStr).format(pattern)
 })
+
+//导入缩略图插件
+import VuePreview from 'vue-pic-preview'
+Vue.use(VuePreview)
 
 // 全局导入评论组件
 import comment from './components/comment.vue'

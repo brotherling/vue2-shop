@@ -19,10 +19,10 @@
               </router-link>
             </li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-              <a href="#">
+              <router-link to="/home/photoList">
                 <img src="../../assets/images/menu2.png">
                 <div class="mui-media-body">图片分享</div>
-              </a>
+              </router-link>
             </li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
               <a href="#">
@@ -67,7 +67,7 @@ export default {
       // this.$http.get("http://www.lovegf.cn:8899/api/getlunbo").then(result => {
       //   console.log(result.body)
       // });
-      console.log(1);
+      // console.log(1);
       // console.log(this)
       this.$http.get("http://www.lovegf.cn:8899/api/getlunbo")
       .then(result => {
