@@ -42,6 +42,10 @@ Vue.use(VuePreview)
 import comment from './components/comment.vue'
 Vue.component('comment-box', comment)
 
+// 全局导入轮播图组件
+import swiper from './components/swiper.vue'
+Vue.component('swiper-box', swiper)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

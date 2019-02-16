@@ -43,8 +43,13 @@ export default {
         },
         getthum(){
             this.$http.get('api/getthumimages/'+this.id).then(result => {
-                console.log(result) 
+                // console.log(result) 
                 if (result.body.status === 0) {
+                    //循环每个图片.添加宽和高
+                    result.body.message.forEach(item => {
+                        item.w = 600
+                        item.h = 400
+                    });
                     this.list = result.body.message
                 }
             })
