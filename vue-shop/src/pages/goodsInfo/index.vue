@@ -1,5 +1,12 @@
 <template>
     <div class="goodsInfo-container">
+        <!-- 小球动画 -->
+        <transition name="ball"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter">
+            <div v-show="showBall" class="smallBall" ref="smallBall"></div>
+        </transition>
         <!-- 轮播图区域 -->
         <div class="mui-card">
             <div class="mui-card-content">
@@ -29,7 +36,7 @@
                     </div>
                     <div>
                         <mt-button type="primary" size="small">立即购买</mt-button>
-                        <mt-button type="danger" size="small">加入购物车</mt-button>
+                        <mt-button type="danger" size="small" @click="moveBall">加入购物车</mt-button>
                     </div>
                 </div>
             </div>   
@@ -46,8 +53,8 @@
                 </div>
             </div>
             <div class="mui-card-footer">
-                <mt-button type="primary" size="large" plain >图文介绍</mt-button>
-                <mt-button type="danger" size="large" plain>商品评论</mt-button>
+                <mt-button type="primary" size="large" plain @click="goDesc">图文介绍</mt-button>
+                <mt-button type="danger" size="large" plain @click="goComment">商品评论</mt-button>
             </div>
         </div>
     </div>
@@ -60,7 +67,9 @@ export default {
             id: this.$route.params.id,
             goodsInfo: {},
             goodsSwipes: [],
-            buyCount: 1
+            buyCount: 1,
+            showBall: false,
+            
         }
     },
     created() {
@@ -83,11 +92,43 @@ export default {
         },
         getgoodsSwipe(){
             this.$http.get('api/getthumimages/'+this.id).then(result => {
-                console.log(result)
+                // console.log(result)
                 if(result.body.status == 0){
                     this.goodsSwipes = result.body.message
                 }
             })
+        },
+        moveBall(){
+            this.showBall = !this.showBall
+        },
+        beforeEnter: function (el) {
+            el.style.transform = "translate(0,0)";
+        },
+        enter: function (el,done) {
+            el.offsetWidth; //vue自带bug,必须要写才有效果
+            // 位置不能写死
+            // 获取小球相对于视口的距离
+                // getBoundingClientRect用于获取某个元素相对视窗距离的集合
+            const ballPosition = this.$refs.smallBall.getBoundingClientRect();
+            // 获取购物车相对于视口的距离 
+                // 购物车不是该组件内的元素,所以不能通过$refs获取,只能操作DOM
+            const carPosition = document.getElementById("car").getBoundingClientRect();
+            // 小球位移距离
+            const ballX = carPosition.left - ballPosition.left ;
+            const ballY = carPosition.top - ballPosition.top;
+
+            el.style.transform = `translate(${ballX}px, ${ballY}px)`;
+            el.style.transition = "all 0.5s cubic-bezier(.04,-0.29,.38,1)";
+            done()
+        },
+        afterEnter: function (el) {
+            this.showBall = !this.showBall
+        },
+        goDesc(){
+            this.$router.push('/home/goodsDesc/'+this.id)
+        },
+        goComment(){
+            this.$router.push('/home/goodsComment/'+this.id)
         }
     },
 }
@@ -96,6 +137,7 @@ export default {
 <style lang="less">
     .goodsInfo-container{
         background-color: #eee;
+        // position: relative;
         .price{
             .sell{
                 color: red;
@@ -128,6 +170,17 @@ export default {
             button{
                 margin: 15px 0;    
             }
+        }
+        // 小球
+        .smallBall{
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 362px;
+            left: 132px;
+            background-color: red;
+            border-radius: 50%;
+            z-index: 99;
         }
     }
 </style>

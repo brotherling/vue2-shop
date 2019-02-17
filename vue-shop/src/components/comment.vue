@@ -21,6 +21,7 @@
 
 <script>
 import { Toast } from 'mint-ui';
+import moment from 'moment'
 export default {
     data() {
         return {
@@ -37,6 +38,7 @@ export default {
         getComment(){
             this.$http.get("api/getcomments/"+this.id+"?pageindex="+this.pageIndex)
             .then(result => {
+
                 if(result.body.status === 0){
                     //每当获取新数据后, 不能把老数据覆盖,而是在后面拼接
                     this.comments = this.comments.concat(result.body.message)
@@ -53,10 +55,21 @@ export default {
             }else{
                 this.$http.post("api/postcomment/"+this.id, {"content": this.msg})
                 .then(result => {
+                    // console.log(result)
                     if(result.body.status === 0){
-                        this.comments = [];
-                        this.pageIndex = 1;
-                        this.getComment();
+                        // 该方法会造成页面刷新
+                        // this.comments = [];
+                        // this.pageIndex = 1;
+                        // this.getComment();
+                        // this.msg = '';
+
+                        // 采用数组拼接,把获得的数据拼接到已有数据的第一位
+                        const newComment = {
+                            "add_time": moment().format('YYYY-MM-DD HH:mm:ss'),
+                            "content": this.msg,
+                            "user_name": "匿名用户"
+                        };
+                        this.comments.unshift(newComment);
                         this.msg = '';
                     }
                 })
