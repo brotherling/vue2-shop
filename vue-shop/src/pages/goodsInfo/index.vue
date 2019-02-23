@@ -69,7 +69,6 @@ export default {
             goodsSwipes: [],
             buyCount: 1,
             showBall: false,
-            
         }
     },
     created() {
@@ -99,7 +98,13 @@ export default {
             })
         },
         moveBall(){
-            this.showBall = !this.showBall
+            this.showBall = !this.showBall;
+            this.$store.commit("addShopCount", {
+                id: this.id,
+                count: this.buyCount,
+                price: this.goodsInfo.sell_price,
+                selected: true
+            })
         },
         beforeEnter: function (el) {
             el.style.transform = "translate(0,0)";
